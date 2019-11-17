@@ -6,4 +6,4 @@ install:
 # phase to use the relevant profile.
 - mvn install -P test -DskipTests=true -Dmaven.javadoc.skip=true -B -V
 script:
-- mvn test -P test -B
+- mvn test -Xmx4096m -P test -B
