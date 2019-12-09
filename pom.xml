@@ -138,6 +138,18 @@ under the License.
 			<groupId>org.apache.flink</groupId>
 			<artifactId>flink-statebackend-rocksdb_${scala.binary.version}</artifactId>
 			<version>${flink.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>com.data-artisans</groupId>
+					<artifactId>frocksdbjni</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>com.data-artisans</groupId>
+			<artifactId>frocksdbjni</artifactId>
+			<version>5.17.2-artisans-1.0</version>
 		</dependency>
 
 		<dependency>
