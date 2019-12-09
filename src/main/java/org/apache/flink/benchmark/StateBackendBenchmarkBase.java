@@ -19,6 +19,8 @@
 package org.apache.flink.benchmark;
 
 import org.apache.flink.benchmark.functions.IntegerLongSource;
+import org.apache.flink.configuration.Configuration;
+import org.apache.flink.configuration.TaskManagerOptions;
 import org.apache.flink.contrib.streaming.state.RocksDBStateBackend;
 import org.apache.flink.runtime.state.AbstractStateBackend;
 import org.apache.flink.runtime.state.filesystem.FsStateBackend;
@@ -42,7 +44,7 @@ public class StateBackendBenchmarkBase extends BenchmarkBase {
 	}
 
 	public static class StateBackendContext {
-		public final StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
+		public final StreamExecutionEnvironment env;
 
 		public final File checkpointDir;
 
@@ -54,6 +56,9 @@ public class StateBackendBenchmarkBase extends BenchmarkBase {
 		private final boolean objectReuse = true;
 
 		public StateBackendContext() {
+			Configuration configuration = new Configuration();
+			configuration.setString(TaskManagerOptions.MANAGED_MEMORY_SIZE, "0");
+			env = StreamExecutionEnvironment.createLocalEnvironment(parallelism, configuration);
 			try {
 				checkpointDir = Files.createTempDirectory("bench-").toFile();
 			} catch (IOException e) {
@@ -63,7 +68,6 @@ public class StateBackendBenchmarkBase extends BenchmarkBase {
 
 		public void setUp(StateBackend stateBackend, long recordsPerInvocation) throws IOException {
 			// set up the execution environment
-			env.setParallelism(parallelism);
 			env.getConfig().disableSysoutLogging();
 			if (objectReuse) {
 				env.getConfig().enableObjectReuse();
