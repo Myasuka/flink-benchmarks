@@ -51,7 +51,7 @@ import static org.apache.flink.state.benchmark.StateBenchmarkConstants.setupKeys
 public class StateBenchmarkBase extends BenchmarkBase {
     KeyedStateBackend<Long> keyedStateBackend;
 
-    @Param({"HEAP", "ROCKSDB"})
+    @Param({"ROCKSDB"})
     protected StateBackendBenchmarkUtils.StateBackendType backendType;
 
     final ThreadLocalRandom random = ThreadLocalRandom.current();
